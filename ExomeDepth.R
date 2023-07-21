@@ -72,6 +72,10 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
+# Redirect output to a log file to suppress warnings and messages
+log_file <- file.path(opt$output_directory, "exomedepth_log.txt")
+sink(log_file, append = FALSE)
+
 # Read test samples from TSV
 test_samples <- read.table(opt$test_sample, header = FALSE, col.names = "test_sample_path")
 
@@ -87,3 +91,6 @@ for (test_sample_path in test_samples$test_sample_path) {
     output_directory = opt$output_directory  # Updated argument name
   )
 }
+
+# Close the sink to restore the standard output
+sink()

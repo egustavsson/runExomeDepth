@@ -24,7 +24,7 @@ install_cran_if_not_installed <- function(package) {
 }
 
 # Install CRAN packages
-cran_packages <- c("optparse", "ExomeDepth")
+cran_packages <- c("optparse", "ExomeDepth", "magrittr")
 for (package in cran_packages) {
   install_cran_if_not_installed(package)
 }
