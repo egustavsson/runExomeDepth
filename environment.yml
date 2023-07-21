@@ -1,0 +1,11 @@
+name: runExomeDepth
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - snakemake==7.18.2
+ - r-base=4.1.0
+ - r-essentials
+ - python=3.9
+ - samtools==1.17
