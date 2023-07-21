@@ -92,3 +92,7 @@ Rscript ExomeDepth.R \
         --baseline-samples baseline_samples.tsv \
         --output-directory /path/to/output_folder/
 ```
+
+#### Output
+
+The output is a CSV file per sample and a log file.
