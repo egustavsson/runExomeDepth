@@ -1,21 +1,22 @@
 # runExomeDepth
 
-Here are some scripts to help call CNVs from WES data using [`ExomeDepth`](https://cran.r-project.org/web/packages/ExomeDepth/index.html). 
+This repo contains code to help call CNVs from WES data using [`ExomeDepth`](https://cran.r-project.org/web/packages/ExomeDepth/index.html). The main script (`ExomeDepth.R`) allows multiple samples to be analysed at the same time.
 
 # Getting Started
 
 ## Input
 
-To run this analysis you just need following input:
+To run this analysis you need the following input:
 
-  - a set of BAM files - one sample per BAM file 
+  - a set of BAM files for which to call CNVs - one sample per BAM file 
+  - a set of BAM files to use as the baseline - one sample per BAM file
   - indexed BAM files (.bai) for the above BAM files
   - a BED file of the target region of your exome or targeted sequencing data. If this is not supplied hg19 will be used.
 
-It is advisable ro do the indexing of the BAM files prior to running the pipeline as if the index dates are not newer than the BAM file ExomeDepth will throw an error. This can be done by:
+It is advisable to do the indexing of the BAM files prior to running the pipeline. If the dates of the index files are older than the BAM files, ExomeDepth will throw an error. Indexing of BAM files can be done by:
 ```bash
 samtools index input.bam # for  single sample or;
-samtools index *.bam # multiple samples
+samtools index -M *.bam # multiple samples
 ```
 
 ## Depedencies
@@ -34,26 +35,26 @@ git clone --recursive https://github.com/egustavsson/runExomeDepth.git
 ## Analysis steps
 
 ### 1. Activate the conda environment
-Create the conda environment for the pipeline which will install all the dependencies:
+First you neeed to create the conda environment which will install all the dependencies. This step only needs to be done once:
 
 ```bash
 cd runExomeDepth
 conda env create -f environment.yml
 ```
-This step only needs to be done once. The conda environment needs to be activated prior to running any analysis. Therefore, make sure to first activate the conda environment using the command `conda activate runExomeDepth`.
+After the conda environment has been created it needs to be activated prior to running any analysis. Therefore, make sure to first activate the conda environment using the command `conda activate runExomeDepth`.
 
-This can be done like this:
+It can be done like this:
 ```bash
 cd runExomeDepth
 conda activate runExomeDepth
 ```
-To deactivate the conda environment:
+To deactivate the conda environment simply run:
 ```bash
 conda deactivate
 ```
 
 ### 2. Install ExomeDepth and required R packages
-To make sure that required R packages, including `ExomeDepth` are installed simply run the script `install-packages.R`.
+While base R and R essentials are installed throught the conda environment, required R packages, including `ExomeDepth` are installed by running the script `install-packages.R`.
 
 From the `./runExomDepth` directory, the script can be ran like this:
 ```bash
@@ -64,7 +65,7 @@ R packages also only needs to be installed once and are saved within the conda e
 ### 2. Call CNVs with ExomeDepth
 
 #### Input data
-To run the ExomeDepth.R you need the following input data:
+To run the `ExomeDepth.R` you need the following input data:
 
 | Parameter | Description |
 | --- | --- |
