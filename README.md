@@ -1,6 +1,6 @@
 # runExomeDepth
 
-This repo contains code to help call CNVs from WES data using [`ExomeDepth`](https://cran.r-project.org/web/packages/ExomeDepth/index.html). The main script (`ExomeDepth.R`) allows multiple samples to be analysed at the same time.
+This repo contains code to help call CNVs from WES data using [`ExomeDepth`](https://cran.r-project.org/web/packages/ExomeDepth/index.html). The main script `ExomeDepth.R` allows multiple samples to be analysed at the same time.
 
 # Getting Started
 
@@ -70,11 +70,11 @@ To run the `ExomeDepth.R` you need the following input data:
 | Parameter | Description |
 | --- | --- |
 | `--targets` | bed file with exon targets. This is optiona and if none is given hg19 will be used |
-| `--test-sample` | `TSV` file with  paths to the BAM files to call CNVs for, one per line |
-| `--baseline-samples` | `TSV` file with  paths to the BAM files used for the baseline, one per line |
+| `--test-sample` | TSV file with  paths to the BAM files to call CNVs for, one per line |
+| `--baseline-samples` | TSV file with  paths to the BAM files used for the baseline, one per line |
 | `--output-directory` | path to output directory |
 
-Example of `--test-sample` and `--baseline-samples` required `TSV` files:
+Example of `--test-sample` and `--baseline-samples` required TSV files:
 
 ```bash
 /path/to/test_sample1.bam
