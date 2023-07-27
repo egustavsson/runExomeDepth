@@ -77,11 +77,11 @@ The main script to call CNVs with is called `ExomeDepth.R`. Make sure you have t
 | --- | --- |
 | `--targets` | bed file with exon targets. This is optional and if none is given hg19 will be used |
 | `--annotation` | GTF/GFF file with gene coordinates. This is optional and if none is given ensembl version 71 (hg19) will be used |
-| `--test-sample` | TSV file with  paths to the BAM files to call CNVs for, one per line |
+| `--test-samples` | TSV file with  paths to the BAM files to call CNVs for, one per line |
 | `--baseline-samples` | TSV file with  paths to the BAM files used for the baseline, one per line |
 | `--output-directory` | path to output directory |
 
-Example of `--test-sample` and `--baseline-samples` required TSV files looks like this:
+Example of `--test-samples` and `--baseline-samples` required TSV files looks like this:
 
 ```bash
 /path/to/test_sample1.bam
@@ -98,7 +98,7 @@ Once you have the required input data, follow these steps to run the `ExomeDepth
 Rscript ExomeDepth.R \
         --targets /path/to/targets.bed \
         --annotation /path/to/annotation.gff \
-        --test-sample test_samples.tsv \
+        --test-samples test_samples.tsv \
         --baseline-samples baseline_samples.tsv \
         --output-directory /path/to/output_folder/
 ```

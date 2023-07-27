@@ -23,16 +23,14 @@ callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_
   # Check if annotations are provided; if not, generate genes.hg19 object
   if (missing(annotation) || is.null(annotation)) {
     data("genes.hg19")
-    annotation <- %>% dplyr::rename(gene_name = name) %>% GRanges()
-
-    # add chr
-    annotation$chromosome <- ifelse(startsWith(annotation$chromosome, "chr"),
-                                                 annotation$chromosome, 
-                                                 paste0("chr", annotation$chromosome))                                                 
+    annotation <- genes.hg19 %>%
+  dplyr::rename(gene_name = name) %>%
+  mutate(chromosome = paste0("chr", chromosome)) %>%
+  GRanges()                                                 
   } else {
-    annotation <- rtracklayer::import(opt$annotation) %>% .[.$type == "gene"] %>% unique()
+    annotation <- rtracklayer::import(opt$annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
   }
-
+  
   Counts <- getBamCounts(bed.frame = targets,
                          bam.files = c(test_sample, baseline_samples),
                          include.chr = TRUE) %>%
@@ -93,7 +91,7 @@ for (i in seq_along(gene_names_list)) {
 }
 
 # Update the "CNV_calls" object with the combined gene names, preserving NA values
-CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)) NA else x))
+CNV_calls$gene_name <- CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)) NA else x))
   
   # Generate the output filename based on the test sample name
   sample_name <- gsub("\\.bam$", "", basename(test_sample))
@@ -109,9 +107,10 @@ CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)
 
 # Parse command-line options
 option_list <- list(
-  make_option("--test-sample", dest="test_sample", type="character"),
+  make_option("--test-samples", dest="test_samples", type="character"),
   make_option("--baseline-samples", dest="baseline_samples", type="character"),
   make_option("--targets", dest="targets", type="character"),
+  make_option("--annotation", dest="annotation", type="character"),
   make_option("--output-directory", dest="output_directory", type="character")  # Updated option name
 )
 
@@ -123,15 +122,16 @@ log_file <- file.path(opt$output_directory, "exomedepth_log.txt")
 sink(log_file, append = FALSE)
 
 # Read test samples from TSV
-test_samples <- read.table(opt$test_sample, header = FALSE, col.names = "test_sample_path")
+test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_col_types = F)
 
 # Read baseline samples from TSV
-baseline_samples <- read.table(opt$baseline_samples, header = FALSE, col.names = "baseline_sample_path")
+baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_path", show_col_types = F)
 
 # Run the analysis for each test sample
 for (test_sample_path in test_samples$test_sample_path) {
   callCNVs(
     targets = opt$targets,
+    annotation = opt$annotation,
     test_sample = test_sample_path,
     baseline_samples = baseline_samples$baseline_sample_path,
     output_directory = opt$output_directory  # Updated argument name
