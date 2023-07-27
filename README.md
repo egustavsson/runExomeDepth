@@ -89,7 +89,7 @@ Example of `--test-sample` and `--baseline-samples` required TSV files looks lik
 /path/to/test_sample3.bam
 ```
 
-Example files can also be found here [test_samples.tsv](/runExomeDepth/test_samples.tsv) and here [baseline_samples.tsv](/runExomeDepth/baseline-samples.tsv)
+Example files can also be found here [test_samples.tsv](./test_samples.tsv) and here [baseline_samples.tsv](./baseline-samples.tsv)
 
 #### Run the script
 Once you have the required input data, follow these steps to run the `ExomeDepth.R` script:
