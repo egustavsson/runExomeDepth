@@ -48,13 +48,15 @@ callCNVs <- function(targets, test_sample, baseline_samples, output_directory) {
                         start = Counts$start,
                         end = Counts$end,
                         name = Counts$exon)
+  # sort by BF value
+  CNV_calls <- all.exons@CNV.calls %>% arrange(desc(BF))
   
   # Generate the output filename based on the test sample name
   sample_name <- gsub("\\.bam$", "", basename(test_sample))
   output_file <- file.path(output_directory, paste0(sample_name, "_CNV.csv"))
     
   write.csv(file = output_file,
-            x = all.exons@CNV.calls,
+            x = CNV_calls,
             row.names = FALSE)
   
   # Print completion message for the test sample
