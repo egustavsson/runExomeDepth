@@ -105,4 +105,4 @@ Rscript ExomeDepth.R \
 
 #### Output
 
-The output is a CSV file per sample and a log file. The CNVs will be sorted in descending order based on the BF column, which stands for Bayes factor. It quantifes the statistical support for each CNV. It is in fact the log10 of the likelihood ratio of data for the CNV call divided by the null (normal copy number). The higher that number, the more confdent once can be about the presence of a CNV. All CNVs will also have a column with the overlapping gene names added.
+The output is a CSV file with CNVs per sample and a log file. The CNVs are sorted in descending order based on the BF column, which stands for Bayes factor. It quantifes the statistical support for each CNV. It is in fact the log10 of the likelihood ratio of data for the CNV call divided by the null (normal copy number). The higher that number, the more confdent one can be about the presence of a CNV. All CNVs will also have a column with the overlapping gene names added.
