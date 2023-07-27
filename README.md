@@ -12,6 +12,7 @@ To run this analysis you need the following input:
   - a set of BAM files to use as the baseline - one sample per BAM file
   - indexed BAM files (.bai) for the above BAM files
   - a BED file of the target region of your exome or targeted sequencing data. If this is not supplied hg19 will be used.
+  - annotation file (GTF/GFF). If this is not supplied ensembl version 71 (hg19) will be used.
 
 It is advisable to do the indexing of the BAM files prior to running the pipeline. If the dates of the index files are older than the BAM files, ExomeDepth will throw an error. Indexing of BAM files can be done by:
 ```bash
@@ -69,7 +70,8 @@ To run the `ExomeDepth.R` you need the following input data:
 
 | Parameter | Description |
 | --- | --- |
-| `--targets` | bed file with exon targets. This is optiona and if none is given hg19 will be used |
+| `--targets` | bed file with exon targets. This is optional and if none is given hg19 will be used |
+| `--annotation` | GTF/GFF file with gene coordinates. This is optional and if none is given ensembl version 71 (hg19) will be used |
 | `--test-sample` | TSV file with  paths to the BAM files to call CNVs for, one per line |
 | `--baseline-samples` | TSV file with  paths to the BAM files used for the baseline, one per line |
 | `--output-directory` | path to output directory |
@@ -88,6 +90,7 @@ Once you have the required input data, follow these steps to run the `ExomeDepth
 ```
 Rscript ExomeDepth.R \
         --targets /path/to/targets.bed \
+        --annotation /path/to/annotation.gff \
         --test-sample test_samples.tsv \
         --baseline-samples baseline_samples.tsv \
         --output-directory /path/to/output_folder/

@@ -1,27 +1,42 @@
-# Updated ExomeDepth.R
+# Script    : ExomeDepth.R
+# Objective : To call CNVs using ExomeDepth
+# Written by: egustavsson
 
 library(optparse)
 library(ExomeDepth)
+library(GenomicRanges)
 library(tidyverse)
+library(rtracklayer)
 
 # Function Definitions -----------------------------------------------------
 
-callCNVs <- function(targets, test_sample, baseline_samples, output_directory) {
+callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_directory) {
 
   # Check if targets are provided; if not, generate exons.hg19 object
   if (missing(targets) || is.null(targets)) {
     data("exons.hg19")
     targets <- exons.hg19
   } else {
-    # Read the bed file into a data frame
-    # Replace "your_bed_file.bed" with the actual path to your bed file
     targets <- read.table(targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
   }
   
+  # Check if annotations are provided; if not, generate genes.hg19 object
+  if (missing(annotation) || is.null(annotation)) {
+    data("genes.hg19")
+    annotation <- %>% dplyr::rename(gene_name = name) %>% GRanges()
+
+    # add chr
+    annotation$chromosome <- ifelse(startsWith(annotation$chromosome, "chr"),
+                                                 annotation$chromosome, 
+                                                 paste0("chr", annotation$chromosome))                                                 
+  } else {
+    annotation <- rtracklayer::import(opt$annotation) %>% .[.$type == "gene"] %>% unique()
+  }
+
   Counts <- getBamCounts(bed.frame = targets,
                          bam.files = c(test_sample, baseline_samples),
                          include.chr = TRUE) %>%
-    setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number. Make sure magrittr is installed
+    setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number. 
   
   Counts.df <- as.data.frame(Counts)
   
@@ -48,8 +63,37 @@ callCNVs <- function(targets, test_sample, baseline_samples, output_directory) {
                         start = Counts$start,
                         end = Counts$end,
                         name = Counts$exon)
-  # sort by BF value
-  CNV_calls <- all.exons@CNV.calls %>% arrange(desc(BF))
+
+  # sort by BF value and annotate
+  CNV_calls <- all.exons@CNV.calls %>% arrange(desc(BF)) %>% GRanges()
+
+  # Find overlaps using "any" method to handle partial overlaps
+overlap_hits <- findOverlaps(CNV_calls, annotation, type = "any")
+
+# Combine gene names for overlapping ranges
+combine_gene_names <- function(gene_names) {
+  return(paste(unique(gene_names), collapse = ","))
+}
+
+# Initialize a list to store gene names for each CNV_calls entry
+gene_names_list <- vector("list", length(CNV_calls))
+
+# Loop through the overlaps and update the gene_names_list
+for (i in seq_along(gene_names_list)) {
+  # Find all overlaps for the current CNV_calls entry
+  current_overlap_indices <- subjectHits(overlap_hits)[queryHits(overlap_hits) == i]
+  
+  if (length(current_overlap_indices) > 0) {
+    # Extract the gene names from annotation for the current overlaps
+    overlapping_genes <- mcols(annotation[current_overlap_indices])$gene_name
+    
+    # Combine gene names with commas and store them in the gene_names_list
+    gene_names_list[[i]] <- combine_gene_names(overlapping_genes)
+  }
+}
+
+# Update the "CNV_calls" object with the combined gene names, preserving NA values
+CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)) NA else x))
   
   # Generate the output filename based on the test sample name
   sample_name <- gsub("\\.bam$", "", basename(test_sample))

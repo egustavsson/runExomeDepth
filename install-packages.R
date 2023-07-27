@@ -2,7 +2,7 @@
 install.packages("BiocManager", repos = "https://cran.ma.imperial.ac.uk/")
 
 # Bioconductor packages
-bioc_packages <- c("Biostrings", "IRanges", "Rsamtools", "GenomicRanges", "GenomicAlignments")
+bioc_packages <- c("Biostrings", "IRanges", "Rsamtools", "GenomicRanges", "GenomicAlignments", "rtracklayer")
 
 # Function to install a Bioconductor package if it is not already installed
 install_bioc_if_not_installed <- function(package) {
