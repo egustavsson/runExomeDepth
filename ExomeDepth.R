@@ -11,25 +11,6 @@ library(rtracklayer)
 # Function Definitions -----------------------------------------------------
 
 callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_directory) {
-
-  # Check if targets are provided; if not, generate exons.hg19 object
-  if (missing(targets) || is.null(targets)) {
-    data("exons.hg19")
-    targets <- exons.hg19
-  } else {
-    targets <- read.table(targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
-  }
-  
-  # Check if annotations are provided; if not, generate genes.hg19 object
-  if (missing(annotation) || is.null(annotation)) {
-    data("genes.hg19")
-    annotation <- genes.hg19 %>%
-      dplyr::rename(gene_name = name) %>%
-      mutate(chromosome = paste0("chr", chromosome)) %>%
-      GRanges()                                                 
-  } else {
-    annotation <- rtracklayer::import(annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
-  }
   
   Counts <- getBamCounts(bed.frame = targets,
                          bam.files = c(test_sample, baseline_samples),
@@ -174,6 +155,25 @@ test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_
 # Read baseline samples from TSV
 baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_path", show_col_types = F)
 
+# Check if targets are provided; if not, generate exons.hg19 object
+  if (missing(targets) || is.null(targets)) {
+    data("exons.hg19")
+    targets <- exons.hg19
+  } else {
+    targets <- read.table(targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
+  }
+  
+  # Check if annotations are provided; if not, generate genes.hg19 object
+  if (missing(annotation) || is.null(annotation)) {
+    data("genes.hg19")
+    annotation <- genes.hg19 %>%
+      dplyr::rename(gene_name = name) %>%
+      mutate(chromosome = paste0("chr", chromosome)) %>%
+      GRanges()                                                 
+  } else {
+    annotation <- rtracklayer::import(annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
+  }
+                                         
 # Run the analysis for each test sample
 for (test_sample_path in test_samples$test_sample_path) {
   # Generate the log filenames based on the test sample name
