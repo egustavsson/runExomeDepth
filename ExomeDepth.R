@@ -28,7 +28,7 @@ callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_
   mutate(chromosome = paste0("chr", chromosome)) %>%
   GRanges()                                                 
   } else {
-    annotation <- rtracklayer::import(opt$annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
+    annotation <- rtracklayer::import(annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
   }
   
   Counts <- getBamCounts(bed.frame = targets,
