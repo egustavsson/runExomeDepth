@@ -157,14 +157,20 @@ baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_
 for (test_sample_path in test_samples$test_sample_path) {
   # Generate the log filename based on the test sample name
   sample_name <- gsub("\\.bam$", "", basename(test_sample_path))
-  output_log_file <- file.path(opt$output_directory, paste0(sample_name, "_output.log"))
-  message_log_file <- file.path(opt$output_directory, paste0(sample_name, "_message.log"))
-  
+  output_log_file <- file.path(opt$output_directory, paste0(sample_name, "_stdout.log"))
+  message_log_file <- file.path(opt$output_directory, paste0(sample_name, "_stderr.log"))
+
   # Redirect stdout to the sample-specific output log file
   sink(output_log_file, append = FALSE)
   
   # Redirect stderr to the sample-specific message log file
   sink(message_log_file, append = FALSE, type = "message")
+  
+  # Ensure sinks are closed when the loop iteration ends
+  on.exit({
+    sink(type = "message")  # Stop redirecting stderr
+    sink()  # Stop redirecting stdout
+  }, add = TRUE)  # Add this on.exit() to the stack of exit handlers
   
   # Call the function for each test sample
   callCNVs(
@@ -174,8 +180,4 @@ for (test_sample_path in test_samples$test_sample_path) {
     baseline_samples = baseline_samples$baseline_sample_path,
     output_directory = opt$output_directory  # Updated argument name
   )
-  
-  # Close the sinks to restore the standard output and error
-  sink(type = "message")  # Stop redirecting stderr
-  sink()  # Stop redirecting stdout
 }
