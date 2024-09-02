@@ -147,10 +147,6 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
-# Redirect output to a log file to suppress warnings and messages
-log_file <- file.path(opt$output_directory, "exomedepth_log.txt")
-sink(log_file, append = FALSE)
-
 # Read test samples from TSV
 test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_col_types = F)
 
@@ -159,6 +155,14 @@ baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_
 
 # Run the analysis for each test sample
 for (test_sample_path in test_samples$test_sample_path) {
+  # Generate the log filename based on the test sample name
+  sample_name <- gsub("\\.bam$", "", basename(test_sample_path))
+  log_file <- file.path(opt$output_directory, paste0(sample_name, "_log.txt"))
+  
+  # Redirect output to the sample-specific log file
+  sink(log_file, append = FALSE)
+  
+  # Call the function for each test sample
   callCNVs(
     targets = opt$targets,
     annotation = opt$annotation,
@@ -166,7 +170,7 @@ for (test_sample_path in test_samples$test_sample_path) {
     baseline_samples = baseline_samples$baseline_sample_path,
     output_directory = opt$output_directory  # Updated argument name
   )
+  
+  # Close the sink to restore the standard output
+  sink()
 }
-
-# Close the sink to restore the standard output
-sink()
