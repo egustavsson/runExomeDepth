@@ -160,7 +160,7 @@ for (test_sample_path in test_samples$test_sample_path) {
   log_file <- file.path(opt$output_directory, paste0(sample_name, "_log.txt"))
   
   # Redirect output to the sample-specific log file
-  sink(log_file, append = FALSE)
+  sink(log_file, type = c("output", "message"), append = FALSE)
   
   # Call the function for each test sample
   callCNVs(
