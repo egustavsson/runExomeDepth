@@ -1,6 +1,6 @@
 # runExomeDepth
 
-This repo contains code to help call CNVs from WES, or targeted sequencing, data using [`ExomeDepth`](https://cran.r-project.org/web/packages/ExomeDepth/index.html). The main script `ExomeDepth.R` allows multiple samples to be analysed at the same time with a set of baseline samples.
+This repo contains code to help call CNVs from WES, or targeted sequencing, data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The main script `ExomeDepth.R` allows multiple samples to be analysed at the same time with a set of baseline samples.
 
 # Getting Started
 
