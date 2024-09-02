@@ -63,7 +63,7 @@ callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_
                         name = Counts$exon)
 
   # sort by BF value and annotate
-  CNV_calls <- all.exons@CNV.calls %>% arrange(desc(BF)) %>% GRanges()
+  CNV_calls <- all.exons@CNV.calls %>% GRanges()
 
   # Find overlaps using "any" method to handle partial overlaps
 overlap_hits <- findOverlaps(CNV_calls, annotation, type = "any")
