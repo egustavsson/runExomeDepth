@@ -148,14 +148,14 @@ test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_
 baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_path", show_col_types = F)
 
 # Initialize targets and annotation once outside the loop
-if (missing(opt$targets) || is.null(opt$targets)) {
+if (is.null(opt$targets)) {
   data("exons.hg19")
   targets <- exons.hg19
 } else {
   targets <- read.table(opt$targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
 }
 
-if (missing(opt$annotation) || is.null(opt$annotation)) {
+if (is.null(opt$annotation)) {
   data("genes.hg19")
   annotation <- genes.hg19 %>%
     dplyr::rename(gene_name = name) %>%
@@ -163,7 +163,7 @@ if (missing(opt$annotation) || is.null(opt$annotation)) {
     GRanges()
 } else {
   annotation <- rtracklayer::import(opt$annotation) %>%
-    .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
+    .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
 }
 
 # Run the analysis for each test sample
