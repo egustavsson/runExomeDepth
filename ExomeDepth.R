@@ -10,18 +10,6 @@ library(rtracklayer)
 
 # Function Definitions -----------------------------------------------------
 
-# Script    : ExomeDepth.R
-# Objective : To call CNVs using ExomeDepth
-# Written by: egustavsson
-
-library(optparse)
-library(ExomeDepth)
-library(GenomicRanges)
-library(tidyverse)
-library(rtracklayer)
-
-# Function Definitions -----------------------------------------------------
-
 callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_directory) {
 
   # Check if targets are provided; if not, generate exons.hg19 object
