@@ -141,11 +141,32 @@ option_list <- list(
   make_option("--baseline-samples", dest="baseline_samples", type="character"),
   make_option("--targets", dest="targets", type="character"),
   make_option("--annotation", dest="annotation", type="character"),
-  make_option("--output-directory", dest="output_directory", type="character")  # Updated option name
+  make_option("--output-directory", dest="output_directory", type="character")
 )
 
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
+
+# Validate input options
+if (!file.exists(opt$test_samples)) {
+  stop("Error: The file specified for --test-samples does not exist: ", opt$test_samples)
+}
+
+if (!file.exists(opt$baseline_samples)) {
+  stop("Error: The file specified for --baseline-samples does not exist: ", opt$baseline_samples)
+}
+
+if (!is.null(opt$targets) && !file.exists(opt$targets)) {
+  stop("Error: The file specified for --targets does not exist: ", opt$targets)
+}
+
+if (!is.null(opt$annotation) && !file.exists(opt$annotation)) {
+  stop("Error: The file specified for --annotation does not exist: ", opt$annotation)
+}
+
+if (!dir.exists(opt$output_directory)) {
+  stop("Error: The directory specified for --output-directory does not exist: ", opt$output_directory)
+}
 
 # Read test samples from TSV
 test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_col_types = F)
