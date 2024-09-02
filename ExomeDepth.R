@@ -157,13 +157,14 @@ baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_
 for (test_sample_path in test_samples$test_sample_path) {
   # Generate the log filename based on the test sample name
   sample_name <- gsub("\\.bam$", "", basename(test_sample_path))
-  log_file <- file.path(opt$output_directory, paste0(sample_name, "_log.txt"))
+  output_log_file <- file.path(opt$output_directory, paste0(sample_name, "_output.log"))
+  message_log_file <- file.path(opt$output_directory, paste0(sample_name, "_message.log"))
   
-   # Redirect stdout to the sample-specific log file
-  sink(log_file, append = FALSE)
+  # Redirect stdout to the sample-specific output log file
+  sink(output_log_file, append = FALSE)
   
-  # Redirect stderr to the same log file
-  sink(log_file, append = TRUE, type = "message")
+  # Redirect stderr to the sample-specific message log file
+  sink(message_log_file, append = FALSE, type = "message")
   
   # Call the function for each test sample
   callCNVs(
@@ -174,7 +175,7 @@ for (test_sample_path in test_samples$test_sample_path) {
     output_directory = opt$output_directory  # Updated argument name
   )
   
-  # Close the sink to restore the standard output and error
+  # Close the sinks to restore the standard output and error
   sink(type = "message")  # Stop redirecting stderr
   sink()  # Stop redirecting stdout
 }
