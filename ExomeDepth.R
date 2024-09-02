@@ -156,14 +156,6 @@ if (!file.exists(opt$baseline_samples)) {
   stop("Error: The file specified for --baseline-samples does not exist: ", opt$baseline_samples)
 }
 
-if (!is.null(opt$targets) && !file.exists(opt$targets)) {
-  stop("Error: The file specified for --targets does not exist: ", opt$targets)
-}
-
-if (!is.null(opt$annotation) && !file.exists(opt$annotation)) {
-  stop("Error: The file specified for --annotation does not exist: ", opt$annotation)
-}
-
 if (!dir.exists(opt$output_directory)) {
   stop("Error: The directory specified for --output-directory does not exist: ", opt$output_directory)
 }
