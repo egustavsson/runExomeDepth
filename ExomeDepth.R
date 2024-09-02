@@ -183,11 +183,17 @@ for (test_sample_path in test_samples$test_sample_path) {
 
   # Try-Catch block to ensure sinks are closed properly
   tryCatch({
+    # Check if the output directory exists
+    if (!dir.exists(opt$output_directory)) {
+      stop("Output directory does not exist or is not accessible: ", opt$output_directory)
+    }
+    
     # Redirect stdout to the sample-specific output log file
     sink(output_log_file, append = FALSE)
     
-    # Redirect stderr to the sample-specific message log file
-    sink(message_log_file, append = FALSE, type = "message")
+    # Open connection for stderr redirection
+    message_log_conn <- file(message_log_file, open = "wt")
+    sink(message_log_conn, append = FALSE, type = "message")
     
     # Call the function for each test sample
     callCNVs(
@@ -198,8 +204,9 @@ for (test_sample_path in test_samples$test_sample_path) {
       output_directory = opt$output_directory
     )
   }, finally = {
-    # Ensure sinks are closed
+    # Ensure sinks are closed in the proper order
     sink(type = "message")  # Stop redirecting stderr
+    close(message_log_conn) # Close the stderr connection
     sink()  # Stop redirecting stdout
   })
 }
