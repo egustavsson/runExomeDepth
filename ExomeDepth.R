@@ -10,6 +10,18 @@ library(rtracklayer)
 
 # Function Definitions -----------------------------------------------------
 
+# Script    : ExomeDepth.R
+# Objective : To call CNVs using ExomeDepth
+# Written by: egustavsson
+
+library(optparse)
+library(ExomeDepth)
+library(GenomicRanges)
+library(tidyverse)
+library(rtracklayer)
+
+# Function Definitions -----------------------------------------------------
+
 callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_directory) {
 
   # Check if targets are provided; if not, generate exons.hg19 object
@@ -24,9 +36,9 @@ callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_
   if (missing(annotation) || is.null(annotation)) {
     data("genes.hg19")
     annotation <- genes.hg19 %>%
-  dplyr::rename(gene_name = name) %>%
-  mutate(chromosome = paste0("chr", chromosome)) %>%
-  GRanges()                                                 
+      dplyr::rename(gene_name = name) %>%
+      mutate(chromosome = paste0("chr", chromosome)) %>%
+      GRanges()                                                 
   } else {
     annotation <- rtracklayer::import(annotation) %>% .[.$type == "gene"] %>% unique() # This needs to have "chr" within seqnames
   }
@@ -61,49 +73,115 @@ callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_
                         start = Counts$start,
                         end = Counts$end,
                         name = Counts$exon)
-
-  # sort by BF value and annotate
-  CNV_calls <- all.exons@CNV.calls %>% GRanges()
-
-  # Find overlaps using "any" method to handle partial overlaps
-overlap_hits <- findOverlaps(CNV_calls, annotation, type = "any")
-
-# Combine gene names for overlapping ranges
-combine_gene_names <- function(gene_names) {
-  return(paste(unique(gene_names), collapse = ","))
-}
-
-# Initialize a list to store gene names for each CNV_calls entry
-gene_names_list <- vector("list", length(CNV_calls))
-
-# Loop through the overlaps and update the gene_names_list
-for (i in seq_along(gene_names_list)) {
-  # Find all overlaps for the current CNV_calls entry
-  current_overlap_indices <- subjectHits(overlap_hits)[queryHits(overlap_hits) == i]
   
-  if (length(current_overlap_indices) > 0) {
-    # Extract the gene names from annotation for the current overlaps
-    overlapping_genes <- mcols(annotation[current_overlap_indices])$gene_name
+  # Check if any CNVs were called
+  if (nrow(all.exons@CNV.calls) == 0) {
+    # Generate the output filename based on the test sample name
+    sample_name <- gsub("\\.bam$", "", basename(test_sample))
+    output_file <- file.path(output_directory, paste0(sample_name, "_CNV.csv"))
     
-    # Combine gene names with commas and store them in the gene_names_list
-    gene_names_list[[i]] <- combine_gene_names(overlapping_genes)
+    # Create a dataframe with the specified headers and no data
+    empty_df <- data.frame(
+      seqnames = character(),
+      start = integer(),
+      end = integer(),
+      width = integer(),
+      strand = character(),
+      start.p = integer(),
+      end.p = integer(),
+      type = character(),
+      nexons = integer(),
+      id = character(),
+      BF = numeric(),
+      reads.expected = numeric(),
+      reads.observed = numeric(),
+      reads.ratio = numeric(),
+      gene_name = character()
+    )
+    
+    # Write the empty dataframe to CSV
+    write.csv(empty_df, file = output_file, row.names = FALSE)
+    cat("No CNVs called for", sample_name, "using the baseline samples provided.\n")
+  } else {
+    # Continue processing if there are CNVs
+    CNV_calls <- all.exons@CNV.calls %>% GRanges()
+
+    # Find overlaps using "any" method to handle partial overlaps
+    overlap_hits <- findOverlaps(CNV_calls, annotation, type = "any")
+
+    # Combine gene names for overlapping ranges
+    combine_gene_names <- function(gene_names) {
+      return(paste(unique(gene_names), collapse = ","))
+    }
+
+    # Initialize a list to store gene names for each CNV_calls entry
+    gene_names_list <- vector("list", length(CNV_calls))
+
+    # Loop through the overlaps and update the gene_names_list
+    for (i in seq_along(gene_names_list)) {
+      # Find all overlaps for the current CNV_calls entry
+      current_overlap_indices <- subjectHits(overlap_hits)[queryHits(overlap_hits) == i]
+      
+      if (length(current_overlap_indices) > 0) {
+        # Extract the gene names from annotation for the current overlaps
+        overlapping_genes <- mcols(annotation[current_overlap_indices])$gene_name
+        
+        # Combine gene names with commas and store them in the gene_names_list
+        gene_names_list[[i]] <- combine_gene_names(overlapping_genes)
+      }
+    }
+
+    # Update the "CNV_calls" object with the combined gene names, preserving NA values
+    CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)) NA else x))
+    
+    # Generate the output filename based on the test sample name
+    sample_name <- gsub("\\.bam$", "", basename(test_sample))
+    output_file <- file.path(output_directory, paste0(sample_name, "_CNV.csv"))
+      
+    write.csv(file = output_file,
+              x = CNV_calls,
+              row.names = FALSE)
+    
+    # Print completion message for the test sample
+    cat("Analysis completed for", sample_name, "\n")
   }
 }
 
-# Update the "CNV_calls" object with the combined gene names, preserving NA values
-CNV_calls$gene_name <- CNV_calls$gene_name <- unlist(lapply(gene_names_list, function(x) if (is.null(x)) NA else x))
-  
-  # Generate the output filename based on the test sample name
-  sample_name <- gsub("\\.bam$", "", basename(test_sample))
-  output_file <- file.path(output_directory, paste0(sample_name, "_CNV.csv"))
-    
-  write.csv(file = output_file,
-            x = CNV_calls,
-            row.names = FALSE)
-  
-  # Print completion message for the test sample
-  cat("Analysis completed for", sample_name, "\n")
+# Parse command-line options
+option_list <- list(
+  make_option("--test-samples", dest="test_samples", type="character"),
+  make_option("--baseline-samples", dest="baseline_samples", type="character"),
+  make_option("--targets", dest="targets", type="character"),
+  make_option("--annotation", dest="annotation", type="character"),
+  make_option("--output-directory", dest="output_directory", type="character")  # Updated option name
+)
+
+opt_parser <- OptionParser(option_list = option_list)
+opt <- parse_args(opt_parser)
+
+# Redirect output to a log file to suppress warnings and messages
+log_file <- file.path(opt$output_directory, "exomedepth_log.txt")
+sink(log_file, append = FALSE)
+
+# Read test samples from TSV
+test_samples <- read_tsv(opt$test_samples, col_names = "test_sample_path", show_col_types = F)
+
+# Read baseline samples from TSV
+baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_path", show_col_types = F)
+
+# Run the analysis for each test sample
+for (test_sample_path in test_samples$test_sample_path) {
+  callCNVs(
+    targets = opt$targets,
+    annotation = opt$annotation,
+    test_sample = test_sample_path,
+    baseline_samples = baseline_samples$baseline_sample_path,
+    output_directory = opt$output_directory  # Updated argument name
+  )
 }
+
+# Close the sink to restore the standard output
+sink()
 
 # Parse command-line options
 option_list <- list(
