@@ -58,8 +58,8 @@ You need to have specific directories on your host machine that will be mounted 
 For example:
 - `/mnt/example`: Directory for general data.
 - `/mnt/example-2`: Another directory for additional data.
-- `/mnt/example-3`: A third directory for more data.
-- `/data/example/`: Directory where output files will be stored.
+- `/mnt/test_data`: A third directory for more data.
+- `/data/working/`: Directory where output files will be stored.
 
 Make sure these directories exist or replace them with paths that suit your environment.
 
@@ -74,13 +74,13 @@ Use the following command to run the Docker container with the required director
 ```bash
 docker run -v /mnt/example:/mnt/example \
            -v /mnt/example-2:/mnt/example-2 \
-           -v /mnt/example-3:/mnt/example-3 \
-           -v /data/example/:/data \
+           -v /mnt/test_data:/mnt/test_data_1 \
+           -v /data/working/:/data \
            -it murphydaviducl/runexomedepth:latest /bin/bash
 ```
 
 ### Explanation:
-- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. The names are the same in this example but they don't have to be the same.
+- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. 
 - `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
 - `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
