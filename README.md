@@ -79,7 +79,7 @@ docker run -v /mnt/example:/mnt/example \
 ```
 
 ### Explanation:
-- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container.
+- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. The names are the same in this example but they don't have to be the same.
 - `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
 - `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
