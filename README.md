@@ -142,3 +142,80 @@ working directory
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
 |--- {sample}_stderr.log   # stdout to a sample-specific output log file
 |--- {sample}_stdout.log   # stderr to a sample-specific output log file
+
+
+
+
+# Running the `murphydaviducl/runexomedepth:latest` Docker Container
+
+## Step 1: Pull the Docker Image
+
+The first step is to pull the Docker image from Docker Hub. This ensures you have the latest version of the `runexomedepth` image.
+
+```bash
+docker pull murphydaviducl/runexomedepth:latest
+```
+
+This command downloads the latest version of the `runexomedepth` Docker image to your local machine.
+
+## Step 2: Prepare Your Directories
+
+You need to have specific directories on your host machine that will be mounted into the Docker container. These directories will be used for input data and output results.
+
+For example:
+- `/mnt/example`: Directory for general data.
+- `/mnt/example-2`: Another directory for additional data.
+- `/mnt/example-3`: A third directory for more data.
+- `/data/example/`: Directory where output files will be stored.
+
+Make sure these directories exist or replace them with paths that suit your environment.
+
+## Step 3: Run the Docker Container
+
+Use the following command to run the Docker container with the required directories mounted. This command will start an interactive shell inside the container.
+
+```bash
+docker run -v /mnt/example:/mnt/example \
+           -v /mnt/example-2:/mnt/example-2 \
+           -v /mnt/example-3:/mnt/example-3 \
+           -v /data/example/:/data \
+           -it murphydaviducl/runexomedepth:latest /bin/bash
+```
+
+### Explanation:
+- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container.
+- `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
+- `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
+- `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
+
+## Step 4: Activate the Conda Environment
+
+Once inside the container, activate the `runExomeDepth` Conda environment. This environment contains all the necessary dependencies.
+
+```bash
+conda activate runExomeDepth
+```
+
+This command activates the Conda environment named `runExomeDepth` inside the Docker container.
+
+## Step 5: Navigate to the Data Directory
+
+Change the directory to the location where your data and scripts are stored inside the container.
+
+```bash
+cd /data/
+```
+
+This command navigates to the `/data/` directory, which was mounted from the host machine.
+
+## Step 6: Run Your Script
+
+Finally, execute the script that you intend to run within the container.
+
+```bash
+bash runscript.sh
+```
+
+This command runs the `runscript.sh` file, which should be located in the `/data/` directory.
+
+
