@@ -7,11 +7,14 @@
 <!-- badges: end -->
 
 This repo contains code to help call CNVs from WES, or targeted sequencing data, using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). It allows multiple samples to be analysed at the same time with a set of baseline samples.
+
 # Getting Started
 
 ## Prerequisites
 
 To run this you will need to have `Docker` installed on your system. `Docker` is a platform that allows you to create, deploy, and run applications in containers. More information about `Docker` can be found at https://www.docker.com/. Follow the instructions below to install `Docker` if you have not already:
+
+While you can run this without docker, we advise against it due to problems compatabilities of dependencies. Information n how to do so can be found here [without docker](/runExomeDepth/without_docker/README.md)
 
 ### Installing Docker
 
