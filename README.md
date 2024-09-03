@@ -105,18 +105,6 @@ cd /data/
 
 This command navigates to the `/data/` directory, which was mounted from the host machine.
 
-## Step 6: Run Your Script
-
-Finally, execute the script that you intend to run within the container.
-
-```bash
-bash runscript.sh
-```
-
-This command runs the `runscript.sh` file, which should be located in the `/data/` directory.
-
-The runscript file should contain the ExomeDepth.R command as described below. The input files will need to be prepared as described.
-
 ## Input
 
 To run this analysis you will need the following input:
