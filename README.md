@@ -39,9 +39,7 @@ To run this you will need to have `Docker` installed on your system. `Docker` is
 3. **Verify Installation:** Check if Docker is installed correctly by typing `docker --version` in the terminal.
 
 
-
-
-## Running the `murphydaviducl/runexomedepth:latest` Docker Container
+### Running the `murphydaviducl/runexomedepth:latest` Docker Container
 
 ## Step 1: Pull the Docker Image
 
@@ -65,7 +63,7 @@ For example:
 
 Make sure these directories exist or replace them with paths that suit your environment.
 
-## Understanding Mounting Folders in Docker
+### Understanding Mounting Folders in Docker
 
 Mounting folders in Docker is similar to connecting a USB drive to your computer or mapping a network drive. When you "mount" a folder, you're making a directory from your computer (the host) accessible to a specific location inside the Docker container (a virtual environment where the software runs). For example, if you have important data saved in a folder on your computer, you can mount that folder into the Docker container so that the software inside the container can access, read, or modify the files directly. This is crucial because the container itself doesn't have access to your computer's files unless you explicitly share (or "mount") them. The -v option in the Docker command is used to specify which folders on your computer should be made available inside the container and where they should appear. It’s like telling Docker, "Here’s where the files are on my computer, and here’s where I want you to put them inside your environment."
 
@@ -116,7 +114,6 @@ bash runscript.sh
 ```
 
 This command runs the `runscript.sh` file, which should be located in the `/data/` directory.
-
 
 The runscript file should contain the ExomeDepth.R command as described below. The input files will need to be prepared as described.
 
