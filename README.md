@@ -1,6 +1,6 @@
 # runExomeDepth
 
-This repo contains code to help call CNVs from WES, or targeted sequencing, data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The main script `ExomeDepth.R` allows multiple samples to be analysed at the same time with a set of baseline samples.
+This repo contains code to help call CNVs from WES, or targeted sequencing data, using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). It allows multiple samples to be analysed at the same time with a set of baseline samples.
 
 # Getting Started
 
@@ -104,5 +104,8 @@ Rscript ExomeDepth.R \
 ```
 
 #### Output
-
-The output is a CSV file with CNVs per sample and a log file. The CNVs are sorted in descending order based on the BF column, which stands for Bayes factor. It quantifes the statistical support for each CNV. It is in fact the log10 of the likelihood ratio of data for the CNV call divided by the null (normal copy number). The higher that number, the more confdent one can be about the presence of a CNV. All CNVs will also have a column with the overlapping gene names added.
+```
+working directory  
+|--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
+|--- {sample}_stderr.log   # stdout to a sample-specific output log file
+|--- {sample}_stdout.log   # stderr to a sample-specific output log file
