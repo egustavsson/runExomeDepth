@@ -134,54 +134,7 @@ samtools index input.bam # for a single sample or;
 samtools index -M *.bam # multiple samples
 ```
 
-## Depedencies
-
-- [miniconda](https://conda.io/miniconda.html)
-- The rest of the dependencies are installed via conda through the `environment.yml` file
-
-## Installation
-
-Clone the directory. From command line simply run the following command from the directory where you wish to install the repo:
-
-```bash
-git clone --recursive https://github.com/egustavsson/runExomeDepth.git
-```
-
-## Analysis steps
-
-### 1. Create the conda environment
-First you neeed to create the conda environment which will install all the dependencies. This step only needs to be done once:
-
-```bash
-cd runExomeDepth
-conda env create -f environment.yml
-```
-
-### 2. Activate the conda environment
-After the conda environment has been created it needs to be activated prior to running the analysis. Therefore, make sure to first activate the conda environment using the command `conda activate runExomeDepth`.
-
-It can be done like this:
-```bash
-cd runExomeDepth
-conda activate runExomeDepth
-```
-After you are done with the analysis you can deactivate the conda environment by:
-```bash
-conda deactivate
-```
-
-### 3. Install ExomeDepth and required R packages
-While `R` and `R-essentials` are installed throught the conda environment, other required R packages, including `ExomeDepth` are installed by running the script `install-packages.R`.
-
-From the `./runExomDepth` directory, the script can be ran like this:
-
-```bash
-Rscript install-packages.R
-```
-
-Installing R packages using this script only needs to be done once and are saved within the conda environment.
-
-### 2. Call CNVs with ExomeDepth
+###  Call CNVs with ExomeDepth
 
 #### Input data
 The main script to call CNVs with is called `ExomeDepth.R`. Make sure you have the following input data prior to running it:
