@@ -41,7 +41,7 @@ To run this you will need to have `Docker` installed on your system. `Docker` is
 
 
 
-### Running the `murphydaviducl/runexomedepth:latest` Docker Container
+### Running the Docker Container
 
 #### Step 1: Pull the Docker Image
 
