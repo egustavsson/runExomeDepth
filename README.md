@@ -157,6 +157,9 @@ Rscript ExomeDepth.R \
 ```
 
 # Output
+
+The output will be a CSV file with called CNVs, a stderr and a stdout log file per sample stored in the working directory.
+
 ```
 working directory  
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
