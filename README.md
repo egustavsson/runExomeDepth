@@ -83,8 +83,8 @@ docker run -v /host/data1:/container/data1 \
 ```
 
 #### Explanation:
-- v `/host/data1:/container/data1`: Maps /host/data1 from your machine to /container/data1 in the container.
-- v `/host/working_dir:/container/working_dir`: Maps /host/working_dir on the host to /container/working_dir in the container.
+- `v /host/data1:/container/data1`: Maps `/host/data1` from your machine to `/container/data1` in the container.
+- `v /host/working_dir:/container/working_dir`: Maps `/host/working_dir` on the host to `/container/working_dir` in the container.
 - `it`: Runs the container interactively, allowing you to interact with the shell.
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image.
 - `/bin/bash`: Starts a Bash shell inside the container.
