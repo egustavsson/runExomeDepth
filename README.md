@@ -104,7 +104,7 @@ cd /data/
 
 This command navigates to the `/data/` directory, which was mounted from the host machine.
 
-## Input
+# Input
 
 To run this analysis you will need the following input:
 
@@ -121,9 +121,9 @@ samtools index input.bam # for a single sample or;
 samtools index -M *.bam # multiple samples
 ```
 
-##  Call CNVs with ExomeDepth
+#  Call CNVs with ExomeDepth
 
-### Input data
+## Define input data
 The main script to call CNVs with is called `ExomeDepth.R`. Make sure you have the following input data prior to running it:
 
 | Parameter | Description |
@@ -144,7 +144,7 @@ Example of `--test-samples` and `--baseline-samples` required TSV files looks li
 
 Example files can also be found here [test_samples.tsv](./test_samples.tsv) and here [baseline_samples.tsv](./baseline-samples.tsv)
 
-### Run the script
+## Run the script
 Once you have the required input data, follow these steps to run the `ExomeDepth.R` script:
 
 ```
@@ -156,7 +156,7 @@ Rscript ExomeDepth.R \
         --output-directory /path/to/output_folder/
 ```
 
-## Output
+# Output
 ```
 working directory  
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
