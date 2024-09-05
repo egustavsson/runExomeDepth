@@ -169,7 +169,3 @@ working directory
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
 |--- {sample}_stderr.log   # stdout to a sample-specific output log file
 |--- {sample}_stdout.log   # stderr to a sample-specific output log file
-
-
-
-
