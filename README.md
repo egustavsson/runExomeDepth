@@ -75,18 +75,19 @@ Mounting folders in Docker is similar to connecting a USB drive to your computer
 Use the following command to run the Docker container with the required directories mounted. This command will start an interactive shell inside the container.
 
 ```bash
-docker run -v /mnt/example:/mnt/example \
-           -v /mnt/example-2:/mnt/example-2 \
-           -v /mnt/test_data:/mnt/test_data_1 \
-           -v /data/working/:/data \
+docker run -v /host/data1:/container/data1 \
+           -v /host/data2:/container/data2 \
+           -v /host/test_data:/container/test_data \
+           -v /host/working_dir:/container/working_dir \
            -it murphydaviducl/runexomedepth:latest /bin/bash
 ```
 
 #### Explanation:
-- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. 
-- `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
-- `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
-- `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
+- v /host/data1:/container/data1: Maps /host/data1 from your machine to /container/data1 in the container.
+- v /host/working_dir:/container/working_dir: Maps /host/working_dir on the host to /container/working_dir in the container.
+- it: Runs the container interactively, allowing you to interact with the shell.
+- murphydaviducl/runexomedepth:latest: Specifies the Docker image.
+- /bin/bash: Starts a Bash shell inside the container.
 
 #### Step 4: Activate the Conda Environment
 
