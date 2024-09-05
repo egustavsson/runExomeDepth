@@ -38,9 +38,6 @@ To run this you will need to have `Docker` installed on your system. `Docker` is
 
 3. **Verify Installation:** Check if Docker is installed correctly by typing `docker --version` in the terminal.
 
-
-
-
 ### Running the Docker Container
 
 #### Step 1: Pull the Docker Image
@@ -81,13 +78,13 @@ docker run -v /mnt/example:/mnt/example \
            -it murphydaviducl/runexomedepth:latest /bin/bash
 ```
 
-### Explanation:
+#### Explanation:
 - `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. 
 - `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
 - `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
 
-## Step 4: Activate the Conda Environment
+#### Step 4: Activate the Conda Environment
 
 Once inside the container, activate the `runExomeDepth` Conda environment. This environment contains all the necessary dependencies.
 
@@ -97,7 +94,7 @@ conda activate runExomeDepth
 
 This command activates the Conda environment named `runExomeDepth` inside the Docker container.
 
-## Step 5: Navigate to the Data Directory
+#### Step 5: Navigate to the Data Directory
 
 Change the directory to the location where your data and scripts are stored inside the container.
 
@@ -124,9 +121,9 @@ samtools index input.bam # for a single sample or;
 samtools index -M *.bam # multiple samples
 ```
 
-###  Call CNVs with ExomeDepth
+##  Call CNVs with ExomeDepth
 
-#### Input data
+### Input data
 The main script to call CNVs with is called `ExomeDepth.R`. Make sure you have the following input data prior to running it:
 
 | Parameter | Description |
@@ -147,7 +144,7 @@ Example of `--test-samples` and `--baseline-samples` required TSV files looks li
 
 Example files can also be found here [test_samples.tsv](./test_samples.tsv) and here [baseline_samples.tsv](./baseline-samples.tsv)
 
-#### Run the script
+### Run the script
 Once you have the required input data, follow these steps to run the `ExomeDepth.R` script:
 
 ```
@@ -159,7 +156,7 @@ Rscript ExomeDepth.R \
         --output-directory /path/to/output_folder/
 ```
 
-#### Output
+### Output
 ```
 working directory  
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
