@@ -6,17 +6,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-This repo contains code to help call CNVs from WES, or targeted sequencing data, using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). It allows multiple samples to be analysed at the same time with a set of baseline samples.
+This repository provides a pipeline to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool allows for analysis of multiple samples simultaneously with a set of baseline samples.
 
 # Getting Started
 
+Follow these steps to set up and run the pipeline using Docker. While [`Docker`](https://www.docker.com/) is recommended, you can run it without Docker. 
+
 ## Prerequisites
+
+You will need to have Docker installed on your system. For installation instructions, visit Docker's official website at https://www.docker.com/.
+
+> Note: While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
 
 To run this you will need to have `Docker` installed on your system. `Docker` is a platform that allows you to create, deploy, and run applications in containers. More information about `Docker` can be found at https://www.docker.com/. Follow the instructions below to install `Docker` if you have not already:
 
-> While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
-
-### Installing Docker
+### Docker Installation (Linux)
 
 #### For Linux:
 
@@ -50,7 +54,7 @@ docker pull murphydaviducl/runexomedepth:latest
 
 This command downloads the latest version of the `runexomedepth` Docker image to your local machine.
 
-#### Step 2: Prepare Your Directories
+#### Step 2: Prepare Directories
 
 You need to have specific directories on your host machine that will be mounted into the Docker container. These directories will be used for input data and output results.
 
@@ -104,9 +108,9 @@ cd /data/
 
 This command navigates to the `/data/` directory, which was mounted from the host machine.
 
-# Input
+# Input Requirements
 
-To run this analysis you will need the following input:
+To run the analysis, you need:
 
   - a set of BAM files for which to call CNVs - one sample per BAM file 
   - a set of BAM files to use as the baseline - one sample per BAM file
