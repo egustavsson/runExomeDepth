@@ -14,7 +14,7 @@ This repo contains code to help call CNVs from WES, or targeted sequencing data,
 
 To run this you will need to have `Docker` installed on your system. `Docker` is a platform that allows you to create, deploy, and run applications in containers. More information about `Docker` can be found at https://www.docker.com/. Follow the instructions below to install `Docker` if you have not already:
 
-> While you can run this without docker, we advise against it due to problems compatabilities of dependencies. Information n how to do so can be found here [without docker](without_docker/README.md)
+> While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
 
 ### Installing Docker
 
@@ -60,8 +60,8 @@ You need to have specific directories on your host machine that will be mounted 
 For example:
 - `/mnt/example`: Directory for general data.
 - `/mnt/example-2`: Another directory for additional data.
-- `/mnt/example-3`: A third directory for more data.
-- `/data/example/`: Directory where output files will be stored.
+- `/mnt/test_data`: A third directory for more data.
+- `/data/working/`: Directory where output files will be stored.
 
 Make sure these directories exist or replace them with paths that suit your environment.
 
@@ -76,13 +76,13 @@ Use the following command to run the Docker container with the required director
 ```bash
 docker run -v /mnt/example:/mnt/example \
            -v /mnt/example-2:/mnt/example-2 \
-           -v /mnt/example-3:/mnt/example-3 \
-           -v /data/example/:/data \
+           -v /mnt/test_data:/mnt/test_data_1 \
+           -v /data/working/:/data \
            -it murphydaviducl/runexomedepth:latest /bin/bash
 ```
 
 ### Explanation:
-- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. The names are the same in this example but they don't have to be the same.
+- `-v /mnt/example:/mnt/example`: This maps the directory `/mnt/example` on the host to `/mnt/example` inside the container. 
 - `-it`: Runs the container in interactive mode with a pseudo-TTY, allowing you to interact with the shell.
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image to use.
 - `/bin/bash`: The command to run inside the container, which in this case is starting a Bash shell.
@@ -107,19 +107,6 @@ cd /data/
 
 This command navigates to the `/data/` directory, which was mounted from the host machine.
 
-## Step 6: Run Your Script
-
-Finally, execute the script that you intend to run within the container.
-
-```bash
-bash runscript.sh
-```
-
-This command runs the `runscript.sh` file, which should be located in the `/data/` directory.
-
-
-The runscript file should contain the ExomeDepth.R command as described below. The input files will need to be prepared as described.
-
 ## Input
 
 To run this analysis you will need the following input:
@@ -137,54 +124,7 @@ samtools index input.bam # for a single sample or;
 samtools index -M *.bam # multiple samples
 ```
 
-## Depedencies
-
-- [miniconda](https://conda.io/miniconda.html)
-- The rest of the dependencies are installed via conda through the `environment.yml` file
-
-## Installation
-
-Clone the directory. From command line simply run the following command from the directory where you wish to install the repo:
-
-```bash
-git clone --recursive https://github.com/egustavsson/runExomeDepth.git
-```
-
-## Analysis steps
-
-### 1. Create the conda environment
-First you neeed to create the conda environment which will install all the dependencies. This step only needs to be done once:
-
-```bash
-cd runExomeDepth
-conda env create -f environment.yml
-```
-
-### 2. Activate the conda environment
-After the conda environment has been created it needs to be activated prior to running the analysis. Therefore, make sure to first activate the conda environment using the command `conda activate runExomeDepth`.
-
-It can be done like this:
-```bash
-cd runExomeDepth
-conda activate runExomeDepth
-```
-After you are done with the analysis you can deactivate the conda environment by:
-```bash
-conda deactivate
-```
-
-### 3. Install ExomeDepth and required R packages
-While `R` and `R-essentials` are installed throught the conda environment, other required R packages, including `ExomeDepth` are installed by running the script `install-packages.R`.
-
-From the `./runExomDepth` directory, the script can be ran like this:
-
-```bash
-Rscript install-packages.R
-```
-
-Installing R packages using this script only needs to be done once and are saved within the conda environment.
-
-### 2. Call CNVs with ExomeDepth
+###  Call CNVs with ExomeDepth
 
 #### Input data
 The main script to call CNVs with is called `ExomeDepth.R`. Make sure you have the following input data prior to running it:
