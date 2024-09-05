@@ -83,11 +83,11 @@ docker run -v /host/data1:/container/data1 \
 ```
 
 #### Explanation:
-- v /host/data1:/container/data1: Maps /host/data1 from your machine to /container/data1 in the container.
-- v /host/working_dir:/container/working_dir: Maps /host/working_dir on the host to /container/working_dir in the container.
-- it: Runs the container interactively, allowing you to interact with the shell.
-- murphydaviducl/runexomedepth:latest: Specifies the Docker image.
-- /bin/bash: Starts a Bash shell inside the container.
+- v `/host/data1:/container/data1`: Maps /host/data1 from your machine to /container/data1 in the container.
+- v `/host/working_dir:/container/working_dir`: Maps /host/working_dir on the host to /container/working_dir in the container.
+- `it`: Runs the container interactively, allowing you to interact with the shell.
+- `murphydaviducl/runexomedepth:latest`: Specifies the Docker image.
+- `/bin/bash`: Starts a Bash shell inside the container.
 
 #### Step 4: Activate the Conda Environment
 
@@ -113,11 +113,11 @@ This command navigates to the `/data/` directory, which was mounted from the hos
 
 To run the analysis, you need:
 
-  - a set of BAM files for which to call CNVs - one sample per BAM file 
-  - a set of BAM files to use as the baseline - one sample per BAM file
-  - indexed BAM files (.bai) for all the above BAM files
-  - a BED file of the target region of your exome capture or targeted sequencing data. If this is not supplied hg19 will be used.
-  - an annotation file (GTF/GFF). This needs to match the build of your targets. If this is not supplied ensembl version 71 (hg19) will be used.
+  - a set of `BAM` files for which to call CNVs - one sample per `BAM` file 
+  - a set of `BAM` files to use as the baseline - one sample per `BAM` file
+  - indexed `BAM` files (`BAI`) for all the above `BAM` files
+  - a `BED` file of the target region of your exome capture or targeted sequencing data. If this is not supplied hg19 will be used.
+  - an annotation file (`GTF`/`GFF`). This needs to match the build of your targets. If this is not supplied ensembl version 71 (hg19) will be used. These can be downloaded from [Ensembl](https://www.ensembl.org/index.html) or [GENCODE](https://www.ensembl.org/index.html). 
 
 It is advisable to do the indexing of the BAM files prior to running the pipeline. If the dates of the index files are older than the BAM files, ExomeDepth will throw an error. Indexing of BAM files can be done by:
 
