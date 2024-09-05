@@ -156,7 +156,7 @@ Rscript ExomeDepth.R \
         --output-directory /path/to/output_folder/
 ```
 
-### Output
+## Output
 ```
 working directory  
 |--- {sample}_CNV.csv      # A CSV file with called CNVs per sample  
