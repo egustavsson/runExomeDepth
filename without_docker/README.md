@@ -38,7 +38,7 @@ git clone --recursive https://github.com/egustavsson/runExomeDepth.git
 First you neeed to create the conda environment which will install all the dependencies. This step only needs to be done once:
 
 ```bash
-cd runExomeDepth
+cd runExomeDepth/without_docker
 conda env create -f environment.yml
 ```
 
@@ -56,9 +56,9 @@ conda deactivate
 ```
 
 ### 3. Install ExomeDepth and required R packages
-While `R` and `R-essentials` are installed throught the conda environment, other required R packages, including `ExomeDepth` are installed by running the script `install-packages.R`.
+While `R` is installed throught the conda environment, other required R packages, including `ExomeDepth` are installed by running the script `install-packages.R`.
 
-From the `./runExomDepth` directory, the script can be ran like this:
+From the `./runExomeDepth/without_docker` directory, the script can be ran like this:
 
 ```bash
 Rscript install-packages.R
