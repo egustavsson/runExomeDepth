@@ -154,6 +154,7 @@ if (is.null(opt$targets)) {
   data("exons.hg19")
   targets <- exons.hg19
 } else {
+  cat("Using custom target:", basename(opt$targets))
   targets <- read.table(opt$targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
 }
 
@@ -164,6 +165,7 @@ if (is.null(opt$annotation)) {
     mutate(chromosome = paste0("chr", chromosome)) %>%
     GRanges()
 } else {
+  cat("Using custom annotation:", basename(opt$annotation))
   annotation <- rtracklayer::import(opt$annotation) %>%
     .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
 }
@@ -214,4 +216,4 @@ for (test_sample_path in test_samples$test_sample_path) {
     sink()  # Stop redirecting stdout
   })
 }
-cat("Analysis completed!\n")
+cat("Analysis completed!", "\n")
