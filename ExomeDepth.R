@@ -214,4 +214,4 @@ for (test_sample_path in test_samples$test_sample_path) {
     sink()  # Stop redirecting stdout
   })
 }
-cat("Analysis completed!")
+cat("Analysis completed!\n")
