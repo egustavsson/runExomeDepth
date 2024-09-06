@@ -173,6 +173,7 @@ base_Counts <- getBamCounts(bed.frame = targets,
                             bam.files = baseline_samples$baseline_sample_path,
                             include.chr = TRUE) %>%
   setNames(gsub("^X(\\d+)", "\\1", names(.)))
+  
 print("Done parsing baseline samples!")
 print("Starting to process test samples!")
 
