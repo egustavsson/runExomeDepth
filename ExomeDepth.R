@@ -10,18 +10,20 @@ library(rtracklayer)
 
 # Function Definitions -----------------------------------------------------
 
-callCNVs <- function(targets, annotation, test_sample, baseline_samples, output_directory) {
+callCNVs <- function(targets, annotation, test_sample, output_directory) {
 
-  Counts <- getBamCounts(bed.frame = targets,
-                         bam.files = c(test_sample, baseline_samples),
-                         include.chr = TRUE) %>%
-    setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number. 
-  
-  Counts.df <- as.data.frame(Counts)
+  test_Counts <- getBamCounts(bed.frame = targets,
+                            bam.files = test_sample,
+                            include.chr = TRUE) %>%
+  setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number.
+
+  Counts.df <- as.data.frame(
+      dplyr::left_join(test_Counts, base_Counts)
+      )
   
   my.reference.set <- as.matrix(Counts.df[, basename(baseline_samples)])
   
-  my.test <- Counts[, basename(test_sample)]
+  my.test <- test_Counts[, basename(test_sample)]
     
   my.choice <- select.reference.set(test.counts = my.test,
                                     reference.counts = my.reference.set,
@@ -165,6 +167,12 @@ if (is.null(opt$annotation)) {
   annotation <- rtracklayer::import(opt$annotation) %>%
     .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
 }
+
+# run getBamCounts() for baseline samples first so that they do not need to be generated for each iteration
+base_Counts <- getBamCounts(bed.frame = targets,
+                            bam.files = baseline_samples,
+                            include.chr = TRUE) %>%
+  setNames(gsub("^X(\\d+)", "\\1", names(.)))
 
 # Run the analysis for each test sample
 for (test_sample_path in test_samples$test_sample_path) {
