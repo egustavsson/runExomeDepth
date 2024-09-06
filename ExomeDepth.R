@@ -21,7 +21,7 @@ callCNVs <- function(targets, annotation, test_sample, output_directory) {
       dplyr::left_join(test_Counts, base_Counts)
       )
   
-  my.reference.set <- as.matrix(Counts.df[, basename(baseline_samples)])
+  my.reference.set <- as.matrix(Counts.df[, basename(baseline_samples$baseline_sample_path)])
   
   my.test <- test_Counts[, basename(test_sample)]
     
@@ -201,7 +201,8 @@ for (test_sample_path in test_samples$test_sample_path) {
       annotation = annotation,
       test_sample = test_sample_path,
       output_directory = opt$output_directory
-    )
+    ) 
+    gc() # garbage collection
   }, finally = {
     # Ensure sinks are closed in the proper order
     sink(type = "message")  # Stop redirecting stderr
