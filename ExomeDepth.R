@@ -17,10 +17,10 @@ callCNVs <- function(targets, annotation, test_sample, output_directory) {
                             include.chr = TRUE) %>%
   setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number.
 
-  Counts.df <- as.data.frame(
-      dplyr::left_join(test_Counts, base_Counts)
-      )
-  
+  Counts.df <- dplyr::left_join(test_Counts, base_Counts)
+
+  Counts.df <- as.data.frame(Counts)
+
   my.reference.set <- as.matrix(Counts.df[, basename(baseline_samples$baseline_sample_path)])
   
   my.test <- test_Counts[, basename(test_sample)]
@@ -175,6 +175,7 @@ base_Counts <- getBamCounts(bed.frame = targets,
   setNames(gsub("^X(\\d+)", "\\1", names(.)))
 
 cat("Done parsing baseline samples!")
+
 cat("Starting to process test samples!")
 
 # Run the analysis for each test sample
