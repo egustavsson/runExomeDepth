@@ -153,9 +153,10 @@ baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_
 if (is.null(opt$targets)) {
   data("exons.hg19")
   targets <- exons.hg19
+  cat("Using target: ", "exons.hg19")
 } else {
-  cat("Using custom target:", basename(opt$targets))
   targets <- read.table(opt$targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
+  cat("Using target: ", basename(opt$targets))
 }
 
 if (is.null(opt$annotation)) {
@@ -164,10 +165,11 @@ if (is.null(opt$annotation)) {
     dplyr::rename(gene_name = name) %>%
     mutate(chromosome = paste0("chr", chromosome)) %>%
     GRanges()
+  cat("Using annotation: ", "genes.hg19")
 } else {
-  cat("Using custom annotation:", basename(opt$annotation))
   annotation <- rtracklayer::import(opt$annotation) %>%
     .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
+  cat("Using annotation: ", basename(opt$annotation))
 }
 
 # run getBamCounts() for baseline samples first so that they do not need to be generated for each iteration
