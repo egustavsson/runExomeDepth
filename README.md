@@ -16,7 +16,8 @@ Follow these steps to set up and run the pipeline using Docker. While [`Docker`]
 
 You will need to have Docker installed on your system. For installation instructions, visit Docker's official website at https://www.docker.com/.
 
-> Note: While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
+> [!WARNING]
+> While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
 
 To run this you will need to have `Docker` installed on your system. `Docker` is a platform that allows you to create, deploy, and run applications in containers. More information about `Docker` can be found at https://www.docker.com/. Follow the instructions below to install `Docker` if you have not already:
 
@@ -66,7 +67,7 @@ For example:
 
 Make sure these directories exist or replace them with paths that suit your environment.
 
-> **Note** 
+> [!NOTE]
 >**Mounting Folders in Docker**
 >
 >Mounting folders in Docker allows you to share a directory from your computer (the host) with a specific location inside a Docker container. This makes the files accessible to the software running inside the container.
