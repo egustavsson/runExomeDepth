@@ -17,7 +17,7 @@ callCNVs <- function(targets, annotation, test_sample, output_directory) {
                             include.chr = TRUE) %>%
   setNames(gsub("^X(\\d+)", "\\1", names(.))) # Remove 'X' from column names starting with a number.
 
-  Counts.df <- dplyr::left_join(test_Counts, base_Counts)
+  Counts <- dplyr::left_join(test_Counts, base_Counts)
 
   Counts.df <- as.data.frame(Counts)
 
