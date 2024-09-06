@@ -170,7 +170,7 @@ if (is.null(opt$annotation)) {
 
 # run getBamCounts() for baseline samples first so that they do not need to be generated for each iteration
 base_Counts <- getBamCounts(bed.frame = targets,
-                            bam.files = baseline_samples,
+                            bam.files = baseline_samples$baseline_sample_path,
                             include.chr = TRUE) %>%
   setNames(gsub("^X(\\d+)", "\\1", names(.)))
 
@@ -200,7 +200,6 @@ for (test_sample_path in test_samples$test_sample_path) {
       targets = targets,
       annotation = annotation,
       test_sample = test_sample_path,
-      baseline_samples = baseline_samples$baseline_sample_path,
       output_directory = opt$output_directory
     )
   }, finally = {
