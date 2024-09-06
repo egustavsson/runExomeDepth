@@ -119,6 +119,10 @@ To run the analysis, you need:
   - a `BED` file of the target region of your exome capture or targeted sequencing data. If this is not supplied hg19 will be used.
   - an annotation file (`GTF`/`GFF`). This needs to match the build of your targets. If this is not supplied ensembl version 71 (hg19) will be used. These can be downloaded from [Ensembl](https://www.ensembl.org/index.html) or [GENCODE](https://www.ensembl.org/index.html). 
 
+Here is the latest GENCODE annotation: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_46/gencode.v46.annotation.gtf.gz
+
+Here is the latest ensembl annotation: https://ftp.ensembl.org/pub/release-112/gtf/homo_sapiens/Homo_sapiens.GRCh38.112.gtf.gz
+
 It is advisable to do the indexing of the BAM files prior to running the pipeline. If the dates of the index files are older than the BAM files, ExomeDepth will throw an error. Indexing of BAM files can be done by:
 
 ```bash
