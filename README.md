@@ -175,6 +175,8 @@ working directory
 |--- {sample}_stderr.log   # stdout to a sample-specific output log file
 |--- {sample}_stdout.log   # stderr to a sample-specific output log file
 
+```
+
 # Citation
 If using this tool please cite the original ExomeDepth manuscript
 Plagnol, Vincent, et al. "A robust model for read count data in exome sequencing experiments and implications for copy number variant calling." *Bioinformatics* 28.21 (2012). https://doi.org/10.1093/bioinformatics/bts526
