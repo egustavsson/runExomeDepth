@@ -179,4 +179,5 @@ working directory
 
 # Citation
 If using this tool please cite the original ExomeDepth manuscript
+
 Plagnol, Vincent, et al. "A robust model for read count data in exome sequencing experiments and implications for copy number variant calling." *Bioinformatics* 28.21 (2012). https://doi.org/10.1093/bioinformatics/bts526
