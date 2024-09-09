@@ -1,12 +1,12 @@
-# Script    : ExomeDepth.R
-# Objective : To call CNVs using ExomeDepth
-# Written by: egustavsson
+# Load libraries ----------------------------------------------------------
 
-library(optparse)
-library(ExomeDepth)
-library(GenomicRanges)
-library(tidyverse)
-library(rtracklayer)
+suppressPackageStartupMessages({
+  library(optparse)
+  library(ExomeDepth)
+  library(GenomicRanges)
+  library(tidyverse)
+  library(rtracklayer)
+})
 
 # Function Definitions -----------------------------------------------------
 
