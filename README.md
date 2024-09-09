@@ -99,17 +99,7 @@ docker run -v /host/data1:/container/data1 \
 - `murphydaviducl/runexomedepth:latest`: Specifies the Docker image.
 - `/bin/bash`: Starts a Bash shell inside the container.
 
-#### Step 4: Activate the Conda Environment
-
-Once inside the container, activate the `runExomeDepth` Conda environment. This environment contains all the necessary dependencies.
-
-```bash
-conda activate runExomeDepth
-```
-
-This command activates the Conda environment named `runExomeDepth` inside the Docker container.
-
-#### Step 5: Navigate to the Data Directory
+#### Step 4: Navigate to the Data Directory
 
 Change the directory to the location where your data and scripts are stored inside the container.
 
