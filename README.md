@@ -73,9 +73,11 @@ Make sure these directories exist or replace them with paths that suit your envi
 >Mounting folders in Docker allows you to share a directory from your computer (the host) with a specific location inside a Docker container. This makes the files accessible to the software running inside the container.
 >
 >**Why mount a folder?**
+> 
 >To allow the container to access, read, or modify files on your computer. By default, the container does not have access to your files unless you explicitly share them.
 >
->**How to mount a folder:**
+>**How to mount a folder**
+> 
 >Use the `-v` option in the Docker command to specify:
 >- The folder on your computer (host) that you want to share.
 >- The location inside the container where you want the folder to appear.
