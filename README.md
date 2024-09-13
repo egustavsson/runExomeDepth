@@ -6,15 +6,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-This repository provides a tool to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool is dockerised to eliminate compatibility issues and allows for analysis of multiple samples simultaneously with a set of baseline samples.
+This repository provides a tool to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool is containerised using `Docker` to eliminate compatibility issues and allows for analysis of multiple samples simultaneously with a set of baseline samples.
 
 # Getting Started
 
-Follow these steps to set up and run the pipeline using Docker. While [`Docker`](https://www.docker.com/) is recommended, you can run it without Docker. 
+Follow these steps to set up and run the pipeline using `Docker`. While using `Docker` is recommended, you can run it without `Docker`. 
 
 ## Prerequisites
 
-You will need to have Docker installed on your system. For installation instructions, visit Docker's official website at https://www.docker.com/.
+You will need to have `Docker` installed on your system. For installation instructions, visit Docker's official website at https://www.docker.com/.
 
 > [!WARNING]
 > While it is possible to run this without Docker, we strongly recommend against it due to potential compatibility issues with dependencies. If you still wish to proceed without Docker, you can find the necessary information here: [without docker](without_docker/README.md)
