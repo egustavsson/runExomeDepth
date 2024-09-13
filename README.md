@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-This repository provides a pipeline to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool allows for analysis of multiple samples simultaneously with a set of baseline samples.
+This repository provides a tool to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool is dockerised to eliminate compatibility issues and allows for analysis of multiple samples simultaneously with a set of baseline samples.
 
 # Getting Started
 
