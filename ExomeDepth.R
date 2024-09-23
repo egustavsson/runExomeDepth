@@ -118,7 +118,8 @@ callCNVs <- function(targets, annotation, test_sample, output_directory) {
   }
 }
 
-# Parse command-line options
+# Parse Command-line Options ----------------------------------------------
+
 option_list <- list(
   make_option("--test-samples", dest="test_samples", type="character"),
   make_option("--baseline-samples", dest="baseline_samples", type="character"),
@@ -130,7 +131,8 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
-# Validate input options
+# Validate Input Options ---------------------------------------------------
+
 if (!file.exists(opt$test_samples)) {
   stop("Error: The file specified for --test-samples does not exist: ", opt$test_samples)
 }
@@ -171,6 +173,8 @@ if (is.null(opt$annotation)) {
     .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
   cat("Using annotation: ", basename(opt$annotation))
 }
+
+# Main ---------------------------------------------------------------------
 
 # run getBamCounts() for baseline samples first so that they do not need to be generated for each iteration
 base_Counts <- getBamCounts(bed.frame = targets,
