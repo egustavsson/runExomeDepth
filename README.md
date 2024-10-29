@@ -4,6 +4,7 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![DOI](https://zenodo.org/badge/669066146.svg)](https://doi.org/10.5281/zenodo.14008789)
 <!-- badges: end -->
 
 This repository provides a tool to call copy number variations (CNVs) from Whole Exome Sequencing (WES) or targeted sequencing data using [`ExomeDepth`](https://github.com/vplagnol/ExomeDepth). The tool is containerised using `Docker` to eliminate compatibility issues and allows for analysis of multiple samples simultaneously with a set of baseline samples.
