@@ -10,6 +10,23 @@ suppressPackageStartupMessages({
 
 # Function Definitions -----------------------------------------------------
 
+fix_seqnames <- function(data, source_name) {
+  if (inherits(data, "GRanges")) {
+    # Fix seqnames for GRanges objects
+    seqlevels(data) <- ifelse(grepl("^chr", seqlevels(data)), 
+                              seqlevels(data), 
+                              paste0("chr", seqlevels(data)))
+  } else if (inherits(data, "data.frame")) {
+    # Fix seqnames for data frames (assumes first column is chromosome)
+    data[[1]] <- ifelse(grepl("^chr", data[[1]]), 
+                        data[[1]], 
+                        paste0("chr", data[[1]]))
+  } else {
+    stop(paste("Error with", source_name, ": Unsupported data type. Must be a GTF/GFF or BED file."))
+  }
+  return(data)
+}
+
 callCNVs <- function(targets, annotation, test_sample, output_directory) {
 
   test_Counts <- getBamCounts(bed.frame = targets,
@@ -166,6 +183,9 @@ if (is.null(opt$targets)) {
   
   # Assign column names
   colnames(targets) <- c("chrom", "start", "end", "info")
+
+  # Apply fix_seqnames to targets (BED file)
+  targets <- fix_seqnames(targets, source_name = "targets")
   
   cat("Using target: ", basename(opt$targets), "\n")
 }
@@ -179,7 +199,11 @@ if (is.null(opt$annotation)) {
   cat("Using annotation: ", "genes.hg19")
 } else {
   annotation <- rtracklayer::import(opt$annotation) %>%
-    .[.$type == "gene"] %>% unique() # Ensure "chr" within seqnames if needed
+    .[.$type == "gene"] %>% unique()
+  # Apply fix_seqnames to annotation (GTF/GFF file)
+  
+  annotation <- fix_seqnames(annotation, source_name = "annotation")
+  
   cat("Using annotation: ", basename(opt$annotation))
 }
 
