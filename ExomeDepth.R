@@ -155,10 +155,19 @@ baseline_samples <- read_tsv(opt$baseline_samples, col_names = "baseline_sample_
 if (is.null(opt$targets)) {
   data("exons.hg19")
   targets <- exons.hg19
-  cat("Using target: ", "exons.hg19")
+  cat("Using target: ", "exons.hg19", "\n")
 } else {
-  targets <- read.table(opt$targets, header = FALSE, col.names = c("chrom", "start", "end", "info"))
-  cat("Using target: ", basename(opt$targets))
+  targets <- read.table(opt$targets, header = FALSE)
+  
+  # Ensure there are four columns, adding a fourth with "-" if necessary
+  if (ncol(targets) == 3) {
+    targets$V4 <- "-"
+  }
+  
+  # Assign column names
+  colnames(targets) <- c("chrom", "start", "end", "info")
+  
+  cat("Using target: ", basename(opt$targets), "\n")
 }
 
 if (is.null(opt$annotation)) {
