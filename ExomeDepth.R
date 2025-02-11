@@ -200,6 +200,7 @@ if (is.null(opt$annotation)) {
 } else {
   annotation <- rtracklayer::import(opt$annotation) %>%
     .[.$type == "gene"] %>% unique()
+  
   # Apply fix_seqnames to annotation (GTF/GFF file)
   
   annotation <- fix_seqnames(annotation, source_name = "annotation")
